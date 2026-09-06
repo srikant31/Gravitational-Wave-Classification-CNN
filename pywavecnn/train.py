@@ -63,8 +63,9 @@ def build_datasets(img_size: tuple, batch_size: int, seed: int):
 
     class_names = train_ds.class_names
 
-    train_ds = train_ds.cache().prefetch(buffer_size=autotune)
-    valid_ds = valid_ds.cache().prefetch(buffer_size=autotune)
+    # AFTER (caches to disk instead)
+    train_ds = train_ds.cache("/content/train_cache").prefetch(buffer_size=autotune)
+    valid_ds = valid_ds.cache("/content/valid_cache").prefetch(buffer_size=autotune)
     test_ds = test_ds.prefetch(buffer_size=autotune)
 
     return train_ds, valid_ds, test_ds, class_names
